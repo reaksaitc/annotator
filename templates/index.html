@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Annotator</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+<header class="topbar"><h1>Image Annotator</h1></header>
+<main class="app-container">
+    <section class="toolbar">
+        <button id="openFolderBtn">Open Folder</button>
+        <input id="folderInput" type="file" webkitdirectory multiple hidden>
+        <button id="saveAllBtn" disabled>Save All</button>
+        <button id="undoBtn" disabled>Undo</button>
+        <button id="redoBtn" disabled>Redo</button>
+        <div class="toolbar-separator"></div>
+        <span class="toolbar-label">Mode:</span>
+        <label class="mode-option"><input type="radio" name="drawMode" value="two_point" checked> 2-Point</label>
+        <label class="mode-option"><input type="radio" name="drawMode" value="four_point"> 4-Point</label>
+        <label class="mode-option"><input type="radio" name="drawMode" value="select"> Select</label>
+        <div class="toolbar-separator"></div>
+        <span class="toolbar-label">Label:</span>
+        <select id="labelSelect" class="label-select" disabled></select>
+        <button id="newLabelBtn" disabled>+ New Label</button>
+        <div class="toolbar-separator"></div>
+        <span class="toolbar-label">Zoom:</span>
+        <button id="zoomOutBtn" class="small-button" disabled>−</button>
+        <span id="zoomInfo" class="zoom-info">100%</span>
+        <button id="zoomInBtn" class="small-button" disabled>+</button>
+        <button id="fitBtn" disabled>Fit</button>
+        <div class="toolbar-separator"></div>
+        <button id="previousBtn" disabled>&lt; Prev</button>
+        <button id="nextBtn" disabled>Next &gt;</button>
+        <span id="imageInfo" class="image-info">0 / 0</span>
+        <div class="toolbar-spacer"></div>
+        <button id="exportBtn" disabled>Export</button>
+    </section>
+
+    <section class="workspace">
+        <section class="canvas-section">
+            <div id="emptyState" class="empty-state">
+                <h2>No images loaded</h2>
+                <p>Open a folder containing images to start labeling.</p>
+            </div>
+            <div id="canvasScroll" class="canvas-scroll" hidden>
+                <div class="canvas-container"><canvas id="annotationCanvas"></canvas></div>
+            </div>
+        </section>
+
+        <aside class="sidebar">
+            <section class="sidebar-section">
+                <h3>Images</h3>
+                <div id="imageList" class="list-box image-list"><p class="empty-text">No images</p></div>
+            </section>
+            <section class="sidebar-section">
+                <h3>Labels</h3>
+                <div id="labelList" class="list-box labels-list"><p class="empty-text">No labels</p></div>
+                <button id="deleteLabelBtn" class="sidebar-button" disabled>Delete Label</button>
+            </section>
+            <section class="sidebar-section boxes-section">
+                <h3>Boxes on this image</h3>
+                <div id="boxList" class="list-box boxes-list"><p class="empty-text">No boxes</p></div>
+                <div class="box-buttons">
+                    <button id="deleteBoxBtn" disabled>Delete</button>
+                    <button id="renameBoxBtn" disabled>Rename</button>
+                </div>
+            </section>
+        </aside>
+    </section>
+    <footer id="statusBar" class="status-bar">Open a folder to begin</footer>
+</main>
+
+<div id="labelDialogOverlay" class="dialog-overlay" hidden>
+    <div class="dialog-box">
+        <h2>New Label</h2>
+        <label for="newLabelName" class="dialog-label">Class name</label>
+        <input id="newLabelName" class="dialog-input" type="text" autocomplete="off">
+        <label for="newLabelColor" class="dialog-label">Label color</label>
+        <div class="color-picker-row">
+            <input id="newLabelColor" type="color" value="#e6194b">
+            <span id="newLabelColorValue">#e6194b</span>
+        </div>
+        <div class="dialog-buttons">
+            <button id="cancelLabelBtn">Cancel</button>
+            <button id="confirmLabelBtn" class="primary-button">Add Label</button>
+        </div>
+    </div>
+</div>
+
+<div id="exportDialogOverlay" class="dialog-overlay" hidden>
+    <div class="dialog-box export-dialog-box">
+        <h2>Export Dataset</h2>
+        <p class="dialog-help">Only images with annotations are exported.</p>
+        <div class="export-grid">
+            <button id="exportYoloBtn">YOLO (BBox)</button>
+            <button id="exportYoloObbBtn">YOLO-OBB</button>
+            <button id="exportVocBtn">Pascal VOC</button>
+            <button id="exportCocoBtn">COCO</button>
+            <button id="exportCsvBtn">CSV</button>
+            <button id="exportJsonBtn">JSON</button>
+        </div>
+        <div id="exportProgress" class="export-progress"></div>
+        <div class="dialog-buttons"><button id="cancelExportBtn">Close</button></div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+<script src="{{ url_for('static', filename='js/annotator.js') }}"></script>
+<script src="{{ url_for('static', filename='js/exporter.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,24 @@
+# Virtual environment
+venv/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Environment variables
+.env
+
+# VS Code
+.vscode/
+
+# Runtime image data
+storage/images/*
+storage/annotations/*
+storage/exports/*
+
+# Keep folder structure
+!storage/images/.gitkeep
+!storage/annotations/.gitkeep
+!storage/exports/.gitkeep

@@ -1,0 +1,5 @@
+# Desktop annotator (desktop_annotator.py)
+Pillow>=10.0.0
+Flask>=3.0.0
+Pillow>=10.0.0
+gunicorn>=22.0.0
